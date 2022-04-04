@@ -1,85 +1,67 @@
 //IMPORTACIONES
 
-const { response } = require("express");
-const bcryptjs = require("bcryptjs");
-const User = require("../models/user");
+const {response}=require('express');
+const bcryptjs=require('bcryptjs');
+const User=require('../models/user');
+
 
 //CONTROLADORES
 
-const usersGet = (req, res = response) => {
-  const { q, nombre = "no name", page } = req.query;
-  res.json({
-    msg: "get API-controlador",
-    q,
-    nombre,
-    page,
-  });
-};
-
-
-const usersPost = async (req, res) => {  //CREACION
-  //extraer el body
-  const { nombre, email, password, rol } = req.body;
-  const user = new User({ nombre, email, password, rol }); // creacion de instancia
-
-  //Verificar si el correo existe
-
-
-
-  //Encriptar la contraseña
-  const salt = bcryptjs.genSaltSync(); //numero de vueltas que se necesitan para hacer la encryptacion
-  user.password = bcryptjs.hashSync(password, salt);
-
-  //Guardar en DB
-  await user.save(); //mongo grabe el registro , espere la grabacion
-  res.json({
-   user
-  });
-};
-
-
-
-
-const usersPut = async(req, res) => {
-  const { id } = req.params;
-  const{_id,password,google,...resto}=req.body;
-
-  //Validar contra base de datos
-  if(password){
-      //Encriptar la contraseña
-  const salt = bcryptjs.genSaltSync(); //numero de vueltas que se necesitan para hacer la encryptacion
-  resto.password = bcryptjs.hashSync(password, salt);
-
+const usersGet=(req, res=response) => {
+  const {q,nombre='no name',page=1}=req.query;
+    res.json({
+      msg: "get API-controlador",
+      q,
+      nombre,
+      page
+    });
   }
-const user=await User.findByIdAndUpdate(id,resto); // actualizar el registro, buscalo por el id y actualiza el resto
 
-
+const usersPut=(req, res) => {
+  const {id}=req.params;
   res.json({
     msg: "put API-userPut",
-    user
+    id,
+    
   });
-};
+}
+
+const usersPost= async (req, res) => {
+  //extraer el body
+  const {name,email,password,rol}=req.body;
+  const user=new User({name,email,password,rol});//creacion de la instancia 
+  //Verificar si el correo existe
+  //Encriptar la contraseña
+  const salt= bcryptjs.genSaltSync(); //numero de vueltas para haccer mas dificil desencriptarlo
+  user.password= bcryptjs.hashSync( password.toString(),salt);
+  //Guardar en BD
+  await user.save();// aqui me guarda la data en la base de datos 
+  res.json({
+ 
+   user
+  });
+}
 
 
-
-const usersPatch = (req, res) => {
+const usersPatch=(req, res) => {
   res.json({
     msg: "patch API-userPatch",
   });
-};
+}
 
-const usersDelete = (req, res) => {
+
+const usersDelete=(req, res) => {
   res.json({
     msg: "delete API-usersDelete",
   });
-};
+}
 
-//EXPORTACIONES
+  //EXPORTACIONES
 
-module.exports = {
-  usersGet,
-  usersPut,
-  usersPost,
-  usersDelete,
-  usersPatch,
-};
+  module.exports={
+    usersGet,
+    usersPut,
+    usersPost,
+    usersDelete,
+    usersPatch
+  }

@@ -1,16 +1,16 @@
 //IMPORTACION
 const express = require("express");
 const cors = require("cors");
+const {dbConnection}= require('../database/config');
 const { listen } = require("express/lib/application");
-const { dbConnection } = require("../database/config");
 
 class Sever {
   constructor() {
     this.app = express();
     this.port = process.env.PORT;
     this.usersPath = "/api/users";
-    //CONECTAR A LA BASE DE DATOS
-    this.conectarDB();
+    //CONECCION A BASE DE DATOS
+    this.connectarDB();
 
     //MIDDLEWARES-
     this.middlewares();
@@ -18,11 +18,10 @@ class Sever {
     //RUTAS DE MI APLICACION
     this.routes();
   }
-async conectarDB(){
-  
-  await dbConnection()
-}
+  async connectarDB(){
+    await dbConnection();
 
+  }
   middlewares() {
     //CORS
     this.app.use(cors());
