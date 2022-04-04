@@ -26,7 +26,13 @@ const usersPut=(req, res) => {
   });
 }
 
-const usersPost= async (req, res) => {
+/**
+ * Metodo para crear un nuevo usuario
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ */
+const usersPost= async (req, res) => { 
   //extraer el body
   const {name,email,password,rol}=req.body;
   const user=new User({name,email,password,rol});//creacion de la instancia 
