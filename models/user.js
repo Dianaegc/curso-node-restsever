@@ -21,8 +21,7 @@ img:{
 },
 rol:{
     type:String,
-    required:true,
-    enum:['ADMIN_ROLE','USER_ROLE']
+    required:true
 },
 stage:{
     type:Boolean,
@@ -34,6 +33,13 @@ google:{
 },
 
 });
+
+
+//METODOS
+UserSchema.methods.toJSON = function() {
+    const { __v, password, ...user  } = this.toObject();     
+    return user;
+}
 
 //EXPORTACIONES
 module.exports= model('User',UserSchema);
