@@ -26,10 +26,15 @@ const { esRolValido, emailExiste,existeUsuarioPorId } = require('../helpers/db-v
       validarCampos
     ],usersPost);
 
-
+    router.delete("/:id",[
+      check('id','It is not a valid ID').isMongoId(),
+      check('id').custom(existeUsuarioPorId),
+      validarCampos
+    ] ,usersDelete);
+  
 
 
     router.patch("/",usersPatch);
-    router.delete("/", usersDelete);
+
  //EXPORTACION
  module.exports=router;
