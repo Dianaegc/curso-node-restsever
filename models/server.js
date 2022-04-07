@@ -9,6 +9,7 @@ class Sever {
     this.app = express();
     this.port = process.env.PORT;
     this.usersPath = "/api/users";
+    this.authPath = "/api/auth"; // Autenticacion
     //CONECCION A BASE DE DATOS
     this.connectarDB();
 
@@ -33,6 +34,7 @@ class Sever {
     this.app.use(express.static("public"));
   }
   routes() {
+    this.app.use(this.authPath, require("../routes/auth"));//autenticacion
     this.app.use(this.usersPath, require("../routes/users"));
   }
 

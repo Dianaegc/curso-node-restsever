@@ -75,12 +75,14 @@ const usersPatch=(req, res) => {
 
 const usersDelete=async(req, res) => {
   const{id}=req.params // cuando llame la ruta voy a disponer del id que viene de los params 
+
   //Borrarlos de la base de datos -fisicamente
   //const user=await User.findByIdAndDelete(id);
   const user=await User.findByIdAndUpdate(id,{stage:false});
 
+
   res.json(
-    user);
+    {user});
 }
 
   //EXPORTACIONES
